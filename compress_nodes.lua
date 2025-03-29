@@ -3,6 +3,14 @@ local function S(string)
 	return string
 end
 
+local function rep(item, count)
+	local ret = {}
+	for i = 1, count do
+		ret[i] = item
+	end
+	return ret
+end
+
 local function compressed_craftitem(def, item)
 	item = item:gsub(":", "_")
 	local compressed_item = "compressed:" .. item
@@ -35,11 +43,7 @@ local function register_crafting_pair_9to1(def)
 	minetest.register_craft({
 		type = "shapeless",
 		output = def.one,
-		recipe = {
-			def.many, def.many, def.many,
-			def.many, def.many, def.many,
-			def.many, def.many, def.many,
-		},
+		recipe = rep(def.many, 9),
 	})
 	minetest.register_craft({
 		type = "shapeless",
@@ -52,11 +56,7 @@ local function register_crafting_pair_9to1_s(def)
 	minetest.register_craft({
 		type = "shapeless",
 		output = def[2],
-		recipe = {
-			def[1], def[1], def[1],
-			def[1], def[1], def[1],
-			def[1], def[1], def[1],
-		},
+		recipe = rep(def[1], 9),
 	})
 	minetest.register_craft({
 		type = "shapeless",
@@ -66,86 +66,109 @@ local function register_crafting_pair_9to1_s(def)
 end
 
 if minetest.get_modpath("default") then
-	minetest.register_craftitem("compressed:default_grass_1", {
+	minetest.register_alias("compressed:default_grass_1", "compressed:default:grass_1:x1")
+	minetest.register_craftitem(":compressed:default:grass_1:x1", {
 		description = "Compressed Grass",
 		inventory_image = "compressed_default_grass_1.png"
 	})
 	register_crafting_pair_9to1({
 		many = "default:grass_1",
-		one = "compressed:default_grass_1",
+		one = "compressed:default:grass_1:x1",
 	})
 
-	minetest.register_node("compressed:default_bush_leaves", {
+	minetest.register_node(":compressed:default:bush_leaves:x1", {
 		description = "Compressed Bush Leaves",
 		drawtype = "allfaces_optional",
 		tiles = {"compressed_default_leaves_simple.png"},
 		paramtype = "light",
 		groups = {snappy = 3},
-		drop = "compressed:default_bush_leaves",
+		drop = "compressed:default:bush_leaves:x1",
 		sounds = default.node_sound_leaves_defaults(),
 		after_place_node = default.after_place_leaves,
 	})
 	register_crafting_pair_9to1({
 		many = "default:bush_leaves",
-		one = "compressed:default_bush_leaves",
+		one = "compressed:default:bush_leaves:x1",
 	})
 
-	minetest.register_node("compressed:default_leaves_x1", {
+	minetest.register_node(":compressed:default:leaves:x1", {
 		description = "Compressed Apple Tree Leaves",
 		drawtype = "allfaces_optional",
 		tiles = {"compressed_default_leaves.png"},
 		paramtype = "light",
 		groups = {snappy = 3},
-		drop = "compressed:default_leaves_x1",
+		drop = "compressed:default:leaves:x1",
 		sounds = default.node_sound_leaves_defaults(),
 		after_place_node = default.after_place_leaves,
 	})
 	register_crafting_pair_9to1({
 		many = "default:leaves",
-		one = "compressed:default_leaves_x1",
+		one = "compressed:default:leaves:x1",
 	})
 
-	minetest.register_node("compressed:default_leaves_x2", {
+	minetest.register_node(":compressed:default:leaves:x2", {
 		description = "Double Compressed Leaves",
 		drawtype = "allfaces_optional",
 		tiles = {"compressed_default_leaves.png"},
 		paramtype = "light",
 		groups = {snappy = 3},
-		drop = "compressed:default_leaves_x2",
+		drop = "compressed:default:leaves:x2",
 		sounds = default.node_sound_leaves_defaults(),
 		after_place_node = default.after_place_leaves,
 	})
 	register_crafting_pair_9to1_s({
-		"compressed:default_leaves_x1",
-		"compressed:default_leaves_x2"
+		"compressed:default:leaves:x1",
+		"compressed:default:leaves:x2"
 	})
-	minetest.register_node("compressed:default_leaves_x3", {
+	minetest.register_node(":compressed:default:leaves:x3", {
 		description = "Triple Compressed Leaves",
 		drawtype = "allfaces_optional",
 		tiles = {"compressed_default_leaves.png"},
 		paramtype = "light",
 		groups = {snappy = 3},
-		drop = "compressed:default_leaves_x3",
+		drop = "compressed:default_leaves:x3",
 		sounds = default.node_sound_leaves_defaults(),
 		after_place_node = default.after_place_leaves,
 	})
 	register_crafting_pair_9to1_s({
-		"compressed:default_leaves_x2",
-		"compressed:default_leaves_x3"
+		"compressed:default:leaves:x2",
+		"compressed:default:leaves:x3"
 	})
 
-	minetest.register_node("compressed:default_tree", {
+	minetest.register_node(":compressed:default:tree:x1", {
 		description = "Compressed Apple Tree",
 		tiles = {"default_tree_top.png", "default_tree_top.png", "default_tree.png"},
 		paramtype2 = "facedir",
 		is_ground_content = false,
-		groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+		groups = {choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
 		sounds = default.node_sound_wood_defaults(),
 		on_place = minetest.rotate_node,
 	})
 	register_crafting_pair_9to1({
 		many = "default:tree",
-		one = "compressed:default_tree",
+		one = "compressed:default:tree:x1",
+	})
+
+	core.clear_craft({
+		recipe = {
+			{"group:leaves", "group:leaves", "group:leaves"},
+			{"group:leaves", "default:aspen_leaves", "group:leaves"},
+			{"group:leaves", "group:leaves", "group:leaves"}
+		}
+	})
+	minetest.register_node(":compressed:default:aspen_leaves:x1", {
+		description = "Compressed Aspen Tree Leaves",
+		drawtype = "allfaces_optional",
+		tiles = {"default_aspen_leaves.png"},
+		paramtype = "light",
+		groups = {snappy = 3, flammable = 2},
+		drop = "compressed:default:aspen_leaves:x1",
+		sounds = default.node_sound_leaves_defaults(),
+		after_place_node = default.after_place_leaves,
+	})
+	register_crafting_pair_9to1({
+		many = "default:aspen_leaves",
+		one = "compressed:default:aspen_leaves:x1",
 	})
 end
 
