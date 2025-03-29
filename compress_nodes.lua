@@ -44,6 +44,10 @@ local function register_crafting_pair_9to1(def)
 end
 
 if minetest.get_modpath("default") then
+
+	local S = default.get_translator
+
+
 	minetest.register_craftitem("compressed:default_grass_1", {
 		description = "Compressed Grass",
 		inventory_image = "compressed_default_grass_1.png"
@@ -79,6 +83,19 @@ if minetest.get_modpath("default") then
 	register_crafting_pair_9to1({
 		many = "default:leaves",
 		one = "compressed:default_leaves",
+	})
+	minetest.register_node("compressed:default_tree", {
+		description = S("Compressed Apple Tree"),
+		tiles = {"default_tree_top.png", "default_tree_top.png", "default_tree.png"},
+		paramtype2 = "facedir",
+		is_ground_content = false,
+		groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+		sounds = default.node_sound_wood_defaults(),
+		on_place = minetest.rotate_node,
+	})
+	register_crafting_pair_9to1({
+		many = "default:tree",
+		one = "compressed:default_tree",
 	})
 end
 
