@@ -1,3 +1,8 @@
+-- Don't have any translations
+local function S(string)
+	return string
+end
+
 local function compressed_craftitem(def, item)
 	item = item:gsub(":", "_")
 	local compressed_item = "compressed:" .. item
