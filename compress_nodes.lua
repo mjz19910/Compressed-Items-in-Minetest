@@ -169,7 +169,7 @@ end
 
 if minetest.get_modpath("too_many_stones") then
 	minetest.register_node("compressed:tms_granite_black_cobble_x1", {
-		description = S("Compressed Cobbled Black Granite"),
+		description = S("Compressed Black Granite Cobble"),
 		tiles = {"tms_granite_black_cobble.png"},
 		is_ground_content = false,
 		groups = {cracky = 3, black_stone = 1, stone = 2, granite = 1},
