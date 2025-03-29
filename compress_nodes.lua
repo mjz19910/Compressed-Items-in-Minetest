@@ -42,19 +42,6 @@ end
 local function register_crafting_pair_9to1(def)
 	minetest.register_craft({
 		type = "shapeless",
-		output = def.one,
-		recipe = rep(def.many, 9),
-	})
-	minetest.register_craft({
-		type = "shapeless",
-		output = def.many .. " 9",
-		recipe = {def.one}
-	})
-end
-
-local function register_crafting_pair_9to1_s(def)
-	minetest.register_craft({
-		type = "shapeless",
 		output = def[2],
 		recipe = rep(def[1], 9),
 	})
@@ -65,6 +52,44 @@ local function register_crafting_pair_9to1_s(def)
 	})
 end
 
+local function def_compressed_node(def, info)
+	local cur_def = table.copy(def)
+	cur_def.description = info.extra .. "Compressed " .. def.description
+	local cur_name = "compressed:" .. info.item_name .. ":x" .. info.count
+	cur_def.drop = cur_name
+	minetest.register_node(":" .. cur_name, cur_def)
+	register_crafting_pair_9to1({info.prev_name, cur_name})
+	return cur_name
+end
+
+local function register_compressed_node(item_name, def)
+	local cur_name = item_name
+	cur_name = def_compressed_node(def, {
+		item_name = item_name,
+		prev_name = cur_name,
+		count = 1,
+		extra = ""
+	})
+	cur_name = def_compressed_node(def, {
+		item_name = item_name,
+		prev_name = cur_name,
+		count = 2,
+		extra = "Double "
+	})
+	cur_name = def_compressed_node(def, {
+		item_name = item_name,
+		prev_name = cur_name,
+		count = 3,
+		extra = "Triple "
+	})
+	cur_name = def_compressed_node(def, {
+		item_name = item_name,
+		prev_name = cur_name,
+		count = 4,
+		extra = "Quadruple "
+	})
+end
+
 if minetest.get_modpath("default") then
 	minetest.register_alias("compressed:default_grass_1", "compressed:default:grass_1:x1")
 	minetest.register_craftitem(":compressed:default:grass_1:x1", {
@@ -72,81 +97,37 @@ if minetest.get_modpath("default") then
 		inventory_image = "compressed_default_grass_1.png"
 	})
 	register_crafting_pair_9to1({
-		many = "default:grass_1",
-		one = "compressed:default:grass_1:x1",
+		"default:grass_1",
+		"compressed:default:grass_1:x1",
 	})
-
-	minetest.register_node(":compressed:default:bush_leaves:x1", {
-		description = "Compressed Bush Leaves",
+	register_compressed_node("default:bush_leaves", {
+		description = "Bush Leaves",
 		drawtype = "allfaces_optional",
 		tiles = {"compressed_default_leaves_simple.png"},
 		paramtype = "light",
 		groups = {snappy = 3},
-		drop = "compressed:default:bush_leaves:x1",
 		sounds = default.node_sound_leaves_defaults(),
 		after_place_node = default.after_place_leaves,
 	})
-	register_crafting_pair_9to1({
-		many = "default:bush_leaves",
-		one = "compressed:default:bush_leaves:x1",
-	})
 
-	minetest.register_node(":compressed:default:leaves:x1", {
-		description = "Compressed Apple Tree Leaves",
+	register_compressed_node("default:leaves", {
+		description = "Apple Tree Leaves",
 		drawtype = "allfaces_optional",
 		tiles = {"compressed_default_leaves.png"},
 		paramtype = "light",
 		groups = {snappy = 3},
-		drop = "compressed:default:leaves:x1",
 		sounds = default.node_sound_leaves_defaults(),
 		after_place_node = default.after_place_leaves,
-	})
-	register_crafting_pair_9to1({
-		many = "default:leaves",
-		one = "compressed:default:leaves:x1",
 	})
 
-	minetest.register_node(":compressed:default:leaves:x2", {
-		description = "Double Compressed Leaves",
-		drawtype = "allfaces_optional",
-		tiles = {"compressed_default_leaves.png"},
-		paramtype = "light",
-		groups = {snappy = 3},
-		drop = "compressed:default:leaves:x2",
-		sounds = default.node_sound_leaves_defaults(),
-		after_place_node = default.after_place_leaves,
-	})
-	register_crafting_pair_9to1_s({
-		"compressed:default:leaves:x1",
-		"compressed:default:leaves:x2"
-	})
-	minetest.register_node(":compressed:default:leaves:x3", {
-		description = "Triple Compressed Leaves",
-		drawtype = "allfaces_optional",
-		tiles = {"compressed_default_leaves.png"},
-		paramtype = "light",
-		groups = {snappy = 3},
-		drop = "compressed:default_leaves:x3",
-		sounds = default.node_sound_leaves_defaults(),
-		after_place_node = default.after_place_leaves,
-	})
-	register_crafting_pair_9to1_s({
-		"compressed:default:leaves:x2",
-		"compressed:default:leaves:x3"
-	})
-
-	minetest.register_node(":compressed:default:tree:x1", {
-		description = "Compressed Apple Tree",
+	register_compressed_node("default:tree", {
+		description = "Apple Tree",
 		tiles = {"default_tree_top.png", "default_tree_top.png", "default_tree.png"},
 		paramtype2 = "facedir",
 		is_ground_content = false,
 		groups = {choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
 		sounds = default.node_sound_wood_defaults(),
 		on_place = minetest.rotate_node,
-	})
-	register_crafting_pair_9to1({
-		many = "default:tree",
-		one = "compressed:default:tree:x1",
 	})
 
 	core.clear_craft({
@@ -156,19 +137,24 @@ if minetest.get_modpath("default") then
 			{"group:leaves", "group:leaves", "group:leaves"}
 		}
 	})
-	minetest.register_node(":compressed:default:aspen_leaves:x1", {
-		description = "Compressed Aspen Tree Leaves",
+	register_compressed_node("default:aspen_leaves", {
+		description = "Aspen Tree Leaves",
 		drawtype = "allfaces_optional",
 		tiles = {"default_aspen_leaves.png"},
 		paramtype = "light",
 		groups = {snappy = 3, flammable = 2},
-		drop = "compressed:default:aspen_leaves:x1",
 		sounds = default.node_sound_leaves_defaults(),
 		after_place_node = default.after_place_leaves,
 	})
-	register_crafting_pair_9to1({
-		many = "default:aspen_leaves",
-		one = "compressed:default:aspen_leaves:x1",
+end
+
+if minetest.get_modpath("too_many_stones") then
+	register_compressed_node("too_many_stones:granite_black_cobble", {
+		description = "Black Granite Cobble",
+		tiles = {"tms_granite_black_cobble.png"},
+		is_ground_content = false,
+		groups = {cracky = 3, stone = 2, granite = 1},
+		sounds = too_many_stones.node_sound_stone_defaults(),
 	})
 end
 
@@ -204,16 +190,3 @@ if minetest.get_modpath("mts_default") then
 	})
 end
 
-if minetest.get_modpath("too_many_stones") then
-	minetest.register_node("compressed:tms_granite_black_cobble_x1", {
-		description = S("Compressed Black Granite Cobble"),
-		tiles = {"tms_granite_black_cobble.png"},
-		is_ground_content = false,
-		groups = {cracky = 3, stone = 2, granite = 1},
-		sounds = too_many_stones.node_sound_stone_defaults(),
-	})
-	register_crafting_pair_9to1_s({
-		"too_many_stones:granite_black_cobble",
-		"compressed:tms_granite_black_cobble_x1"
-	})
-end
