@@ -161,3 +161,17 @@ if minetest.get_modpath("mts_default") then
 		count = 5,
 	})
 end
+
+if minetest.get_modpath("too_many_stones") then
+	minetest.register_node("compressed:tms_granite_black_cobble_x1", {
+		description = S("Compressed Cobbled Black Granite"),
+		tiles = {"tms_granite_black_cobble.png"},
+		is_ground_content = false,
+		groups = {cracky = 3, black_stone = 1, stone = 2, granite = 1},
+		sounds = too_many_stones.node_sound_stone_defaults(),
+	})
+	register_crafting_pair_9to1_s({
+		"too_many_stones:granite_black_cobble",
+		"compressed:tms_granite_black_cobble_x1"
+	})
+end
