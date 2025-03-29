@@ -90,19 +90,19 @@ if minetest.get_modpath("default") then
 		one = "compressed:default_bush_leaves",
 	})
 
-	minetest.register_node("compressed:default_leaves", {
+	minetest.register_node("compressed:default_leaves_x1", {
 		description = "Compressed Apple Tree Leaves",
 		drawtype = "allfaces_optional",
 		tiles = {"compressed_default_leaves.png"},
 		paramtype = "light",
 		groups = {snappy = 3},
-		drop = "compressed:default_leaves",
+		drop = "compressed:default_leaves_x1",
 		sounds = default.node_sound_leaves_defaults(),
 		after_place_node = default.after_place_leaves,
 	})
 	register_crafting_pair_9to1({
 		many = "default:leaves",
-		one = "compressed:default_leaves",
+		one = "compressed:default_leaves_x1",
 	})
 
 	minetest.register_node("compressed:default_leaves_x2", {
@@ -116,8 +116,22 @@ if minetest.get_modpath("default") then
 		after_place_node = default.after_place_leaves,
 	})
 	register_crafting_pair_9to1_s({
-		"compressed:default_leaves",
+		"compressed:default_leaves_x1",
 		"compressed:default_leaves_x2"
+	})
+	minetest.register_node("compressed:default_leaves_x3", {
+		description = "Triple Compressed Leaves",
+		drawtype = "allfaces_optional",
+		tiles = {"compressed_default_leaves.png"},
+		paramtype = "light",
+		groups = {snappy = 3},
+		drop = "compressed:default_leaves_x3",
+		sounds = default.node_sound_leaves_defaults(),
+		after_place_node = default.after_place_leaves,
+	})
+	register_crafting_pair_9to1_s({
+		"compressed:default_leaves_x2",
+		"compressed:default_leaves_x3"
 	})
 
 	minetest.register_node("compressed:default_tree", {
@@ -172,7 +186,7 @@ if minetest.get_modpath("too_many_stones") then
 		description = S("Compressed Black Granite Cobble"),
 		tiles = {"tms_granite_black_cobble.png"},
 		is_ground_content = false,
-		groups = {cracky = 3, black_stone = 1, stone = 2, granite = 1},
+		groups = {cracky = 3, stone = 2, granite = 1},
 		sounds = too_many_stones.node_sound_stone_defaults(),
 	})
 	register_crafting_pair_9to1_s({
