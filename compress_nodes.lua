@@ -43,11 +43,24 @@ local function register_crafting_pair_9to1(def)
 	})
 end
 
+local function register_crafting_pair_9to1_s(def)
+	minetest.register_craft({
+		type = "shapeless",
+		output = def[2],
+		recipe = {
+			def[1], def[1], def[1],
+			def[1], def[1], def[1],
+			def[1], def[1], def[1],
+		},
+	})
+	minetest.register_craft({
+		type = "shapeless",
+		output = def[1] .. " 9",
+		recipe = {def[2]}
+	})
+end
+
 if minetest.get_modpath("default") then
-
-	local S = default.get_translator
-
-
 	minetest.register_craftitem("compressed:default_grass_1", {
 		description = "Compressed Grass",
 		inventory_image = "compressed_default_grass_1.png"
@@ -56,6 +69,7 @@ if minetest.get_modpath("default") then
 		many = "default:grass_1",
 		one = "compressed:default_grass_1",
 	})
+
 	minetest.register_node("compressed:default_bush_leaves", {
 		description = "Compressed Bush Leaves",
 		drawtype = "allfaces_optional",
@@ -70,6 +84,7 @@ if minetest.get_modpath("default") then
 		many = "default:bush_leaves",
 		one = "compressed:default_bush_leaves",
 	})
+
 	minetest.register_node("compressed:default_leaves", {
 		description = "Compressed Apple Tree Leaves",
 		drawtype = "allfaces_optional",
@@ -84,8 +99,24 @@ if minetest.get_modpath("default") then
 		many = "default:leaves",
 		one = "compressed:default_leaves",
 	})
+
+	minetest.register_node("compressed:default_leaves_x2", {
+		description = "Double Compressed Leaves",
+		drawtype = "allfaces_optional",
+		tiles = {"compressed_default_leaves.png"},
+		paramtype = "light",
+		groups = {snappy = 3},
+		drop = "compressed:default_leaves_x2",
+		sounds = default.node_sound_leaves_defaults(),
+		after_place_node = default.after_place_leaves,
+	})
+	register_crafting_pair_9to1_s({
+		"compressed:default_leaves",
+		"compressed:default_leaves_x2"
+	})
+
 	minetest.register_node("compressed:default_tree", {
-		description = S("Compressed Apple Tree"),
+		description = "Compressed Apple Tree",
 		tiles = {"default_tree_top.png", "default_tree_top.png", "default_tree.png"},
 		paramtype2 = "facedir",
 		is_ground_content = false,
@@ -105,6 +136,7 @@ if minetest.get_modpath("default") and minetest.get_modpath("farming") then
 		one = "farming:beanpole",
 		count = 4,
 	})
+
 	register_crafting_up_to_count({
 		many = "default:stick",
 		one = "farming:trellis",
