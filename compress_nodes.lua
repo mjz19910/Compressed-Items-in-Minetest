@@ -146,6 +146,14 @@ if minetest.get_modpath("default") then
 		sounds = default.node_sound_leaves_defaults(),
 		after_place_node = default.after_place_leaves,
 	})
+
+	register_compressed_node("default:cobble", {
+		description = S("Cobblestone"),
+		tiles = {"default_cobble.png"},
+		is_ground_content = false,
+		groups = {cracky = 3, stone = 2},
+		sounds = default.node_sound_stone_defaults(),
+	})
 end
 
 if minetest.get_modpath("too_many_stones") then
