@@ -149,9 +149,9 @@ if minetest.get_modpath("default") then
 	-- 		{"group:leaves", "group:leaves", "group:leaves"}
 	-- 	}
 	-- })
-	minetest.clear_craft({
-		output = "default:emergent_jungle_sapling"
-	})
+	-- minetest.clear_craft({
+	-- 	output = "default:emergent_jungle_sapling"
+	-- })
 	minetest.register_craft({
 		type = "shapeless",
 		output = "default:junglesapling 9",
@@ -159,6 +159,17 @@ if minetest.get_modpath("default") then
 	})
 
 	consume_from_registered_items()
+
+	minetest.register_craft({
+		type = "shapeless",
+		output = "default:emergent_jungle_sapling 9",
+		recipe = {"compressed:default:junglesapling:x2"}
+	})
+	minetest.register_craft({
+		type = "shapeless",
+		output = "compressed:default:junglesapling:x2",
+		recipe = rep("default:emergent_jungle_sapling", 9)
+	})
 end
 
 if minetest.get_modpath("too_many_stones") then
