@@ -92,13 +92,20 @@ end
 
 local function consume_from_registered_items()
 	local register_list = {
+		-- Jungle Tree
 		"default:jungletree",
 		"default:jungleleaves",
 		"default:junglesapling",
+		-- Pine Tree
+		"default:pine_tree",
+		"default:pine_needles",
+		"default:pine_sapling",
 	}
-	for v in register_list do
-		local nd = table.copy(minetest.registered_items[v])
-		register_compressed_node(nd.name, nd)
+	for k, v in pairs(register_list) do
+		if minetest.registered_items[v] then
+			local nd = table.copy(minetest.registered_items[v])
+			register_compressed_node(nd.name, nd)
+		end
 	end
 end
 
