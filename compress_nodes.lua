@@ -104,6 +104,10 @@ local function consume_from_registered_items()
 		"default:aspen_tree",
 		"default:aspen_leaves",
 		"default:aspen_sapling",
+		-- Acacia Tree
+		"default:acacia_tree",
+		"default:acacia_leaves",
+		"default:acacia_sapling",
 	}
 	for k, v in pairs(register_list) do
 		local node = minetest.registered_items[v]
