@@ -149,6 +149,14 @@ if minetest.get_modpath("default") then
 	-- 		{"group:leaves", "group:leaves", "group:leaves"}
 	-- 	}
 	-- })
+	minetest.clear_craft({
+		output = "default:emergent_jungle_sapling"
+	})
+	minetest.register_craft({
+		type = "shapeless",
+		output = "default:junglesapling 9",
+		recipe = {"default:emergent_jungle_sapling"}
+	})
 
 	consume_from_registered_items()
 end
