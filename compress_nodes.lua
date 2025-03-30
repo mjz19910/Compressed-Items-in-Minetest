@@ -100,11 +100,15 @@ local function consume_from_registered_items()
 		"default:pine_tree",
 		"default:pine_needles",
 		"default:pine_sapling",
+		-- Aspen Tree
+		"default:aspen_tree",
+		"default:aspen_leaves",
+		"default:aspen_sapling",
 	}
 	for k, v in pairs(register_list) do
-		if minetest.registered_items[v] then
-			local nd = table.copy(minetest.registered_items[v])
-			register_compressed_node(nd.name, nd)
+		local node = minetest.registered_items[v]
+		if node then
+			register_compressed_node(node.name, node)
 		end
 	end
 end
@@ -156,15 +160,6 @@ if minetest.get_modpath("default") then
 	-- 		{"group:leaves", "group:leaves", "group:leaves"}
 	-- 	}
 	-- })
-	register_compressed_node("default:aspen_leaves", {
-		description = "Aspen Tree Leaves",
-		drawtype = "allfaces_optional",
-		tiles = {"default_aspen_leaves.png"},
-		paramtype = "light",
-		groups = {snappy = 3, flammable = 2},
-		sounds = default.node_sound_leaves_defaults(),
-		after_place_node = default.after_place_leaves,
-	})
 
 	register_compressed_node("default:cobble", {
 		description = S("Cobblestone"),
