@@ -90,6 +90,18 @@ local function register_compressed_node(item_name, def)
 	})
 end
 
+local function consume_from_registered_items()
+	local register_list = {
+		"default:jungletree",
+		"default:jungleleaves",
+		"default:junglesapling",
+	}
+	for v in register_list do
+		local nd = table.copy(minetest.registered_items[v])
+		register_compressed_node(nd.name, nd)
+	end
+end
+
 if minetest.get_modpath("default") then
 	minetest.register_alias("compressed:default_grass_1", "compressed:default:grass_1:x1")
 	minetest.register_craftitem(":compressed:default:grass_1:x1", {
@@ -130,13 +142,13 @@ if minetest.get_modpath("default") then
 		on_place = minetest.rotate_node,
 	})
 
-	core.clear_craft({
-		recipe = {
-			{"group:leaves", "group:leaves", "group:leaves"},
-			{"group:leaves", "default:aspen_leaves", "group:leaves"},
-			{"group:leaves", "group:leaves", "group:leaves"}
-		}
-	})
+	-- minetest.clear_craft({
+	-- 	recipe = {
+	-- 		{"group:leaves", "group:leaves", "group:leaves"},
+	-- 		{"group:leaves", "default:aspen_leaves", "group:leaves"},
+	-- 		{"group:leaves", "group:leaves", "group:leaves"}
+	-- 	}
+	-- })
 	register_compressed_node("default:aspen_leaves", {
 		description = "Aspen Tree Leaves",
 		drawtype = "allfaces_optional",
@@ -154,6 +166,8 @@ if minetest.get_modpath("default") then
 		groups = {cracky = 3, stone = 2},
 		sounds = default.node_sound_stone_defaults(),
 	})
+
+	consume_from_registered_items()
 end
 
 if minetest.get_modpath("too_many_stones") then
