@@ -92,6 +92,11 @@ end
 
 local function consume_from_registered_items()
 	local register_list = {
+		"default:cobble",
+		-- Apple Tree
+		"default:tree",
+		"default:leaves",
+		"default:sapling",
 		-- Jungle Tree
 		"default:jungletree",
 		"default:jungleleaves",
@@ -137,26 +142,6 @@ if minetest.get_modpath("default") then
 		after_place_node = default.after_place_leaves,
 	})
 
-	register_compressed_node("default:leaves", {
-		description = "Apple Tree Leaves",
-		drawtype = "allfaces_optional",
-		tiles = {"compressed_default_leaves.png"},
-		paramtype = "light",
-		groups = {snappy = 3},
-		sounds = default.node_sound_leaves_defaults(),
-		after_place_node = default.after_place_leaves,
-	})
-
-	register_compressed_node("default:tree", {
-		description = "Apple Tree",
-		tiles = {"default_tree_top.png", "default_tree_top.png", "default_tree.png"},
-		paramtype2 = "facedir",
-		is_ground_content = false,
-		groups = {choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
-		sounds = default.node_sound_wood_defaults(),
-		on_place = minetest.rotate_node,
-	})
-
 	-- minetest.clear_craft({
 	-- 	recipe = {
 	-- 		{"group:leaves", "group:leaves", "group:leaves"},
@@ -164,14 +149,6 @@ if minetest.get_modpath("default") then
 	-- 		{"group:leaves", "group:leaves", "group:leaves"}
 	-- 	}
 	-- })
-
-	register_compressed_node("default:cobble", {
-		description = S("Cobblestone"),
-		tiles = {"default_cobble.png"},
-		is_ground_content = false,
-		groups = {cracky = 3, stone = 2},
-		sounds = default.node_sound_stone_defaults(),
-	})
 
 	consume_from_registered_items()
 end
