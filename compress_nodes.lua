@@ -93,6 +93,8 @@ end
 local function consume_from_registered_items()
 	local register_list = {
 		"default:cobble",
+		"default:gravel",
+		"default:stone_crumbled",
 		-- Apple Tree
 		"default:tree",
 		"default:leaves",
